@@ -6,7 +6,7 @@
     <title>Ekoizleen mapa</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
-    <!-- AÑADE ESTO EN EL HEAD: Estilos del Cluster -->
+    <!-- Estilos del Cluster -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 
@@ -17,6 +17,13 @@
     <a href="https://www.goimen.org/" target="_blank" class="logo-goimen">
     <img src="./icons/logo.png" alt="Logo Goimen" class="logo-img">
     </a>
+
+    <!-- MENÚ LATERAL CON EL BOTÓN DE CIERRE INTEGRADO -->
+    <div id="menu-lateral" class="menu">
+        <button id="btn-cerrar" class="cerrar-menu" title="Cerrar menú">&times;</button>
+        <!-- Aquí irá el resto de tus filtros, capas o contenido del menú -->
+    </div>
+
     <div id="mapa"></div>
 
     <div id="loader-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.85); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; font-family: 'Montserrat', sans-serif;">
@@ -34,7 +41,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
-    <!-- AÑADE ESTO ANTES DE MAIN.JS: Script del Cluster -->
+    <!-- Script del Cluster -->
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 
     <script src="main.js"></script>

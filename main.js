@@ -74,26 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const btnToggleFiltros = document.createElement('button');
             btnToggleFiltros.className = 'btn-toggle-filtros-movil';
             btnToggleFiltros.innerHTML = '🔍 Bilatzailea';
-            btnToggleFiltros.style.cssText = 'position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); z-index: 99999; background: #2d5a27; color: white; border: none; padding: 14px 28px; border-radius: 30px; font-weight: bold; font-size: 0.95em; box-shadow: 0 4px 15px rgba(0,0,0,0.4); cursor: pointer; font-family: Montserrat, sans-serif; transition: opacity 0.3s ease;';
+            btnToggleFiltros.style.cssText = 'position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); z-index: 99999; background: #2d5a27; color: white; border: none; padding: 14px 28px; border-radius: 30px; font-weight: bold; font-size: 0.95em; box-shadow: 0 4px 15px rgba(0,0,0,0.4); cursor: pointer; font-family: Montserrat, sans-serif;';
             document.body.appendChild(btnToggleFiltros);
 
-            if (typeof L !== 'undefined' && L.DomEvent) {
-                L.DomEvent.disableClickPropagation(btnToggleFiltros);
-                L.DomEvent.disableScrollPropagation(btnToggleFiltros);
-            }
-
-            // Al hacer clic, abre el panel y oculta el botón flotante
             btnToggleFiltros.addEventListener('click', (e) => {
                 e.stopPropagation();
-                
-                const panelFiltros = document.querySelector('.controles-mapa') || 
-                                     document.querySelector('#controles') || 
-                                     document.querySelector('.leaflet-control-container');
+                const panelFiltros = document.querySelector('.controles-mapa');
 
                 if (panelFiltros) {
                     panelFiltros.classList.add('mobile-open');
-                    btnToggleFiltros.style.opacity = '0';
-                    btnToggleFiltros.style.pointerEvents = 'none';
+                    btnToggleFiltros.style.display = 'none';
 
                     // Creamos dinámicamente una barrita superior (tirador) si no existe para facilitar el gesto
                     if (!panelFiltros.querySelector('.panel-handle')) {
@@ -113,8 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             // Si arrastras la barrita hacia abajo más de 40px, se cierra el panel y vuelve el botón
                             if (touchEndY - touchStartY > 40) {
                                 panelFiltros.classList.remove('mobile-open');
-                                btnToggleFiltros.style.opacity = '1';
-                                btnToggleFiltros.style.pointerEvents = 'auto';
+                                btnToggleFiltros.style.display = 'block';
                             }
                         }, { passive: true });
                     }
@@ -124,7 +113,24 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+
+    // 3. Lógica para cerrar el menú desde la "X" en móvil (FUERA del bloque del botón flotante pero dentro del DOMContentLoaded)
+    const btnCerrarMenu = document.getElementById('btn-cerrar');
+    if (btnCerrarMenu) {
+        btnCerrarMenu.addEventListener('click', () => {
+            const panelFiltros = document.querySelector('.controles-mapa');
+            const btnToggleFiltros = document.querySelector('.btn-toggle-filtros-movil');
+            
+            if (panelFiltros) {
+                panelFiltros.classList.remove('mobile-open');
+            }
+            if (btnToggleFiltros) {
+                btnToggleFiltros.style.display = 'block'; // Devuelve el botón flotante
+            }
+        });
+    }
 });
+
 
 // ==========================================
 // CÓDIGO COMPLETO INTEGRADO (CORRECCIÓN DE BÚSQUEDA DE EKOIZLE) 

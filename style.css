@@ -17,6 +17,21 @@ body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: 'Mon
 .cat-body.show { display: block; }
 .checkbox-item { display: flex; align-items: center; font-size: 0.85em; padding: 5px 0; cursor: pointer; color: #4a5568; }
 
+/* Estilo para el botón de cierre del menú */
+.cerrar-menu {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 26px;
+    font-weight: bold;
+    color: #2d5a27;
+    cursor: pointer;
+    padding: 2px 8px;
+    line-height: 1;
+}
+
 /* Popup Profesional */
 .leaflet-popup-content-wrapper { border-radius: 20px !important; padding: 0 !important; overflow: hidden; }
 .leaflet-popup-content { margin: 0 !important; width: 320px !important; }
@@ -111,6 +126,7 @@ body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: 'Mon
 }
 
 /* --- ADAPTACIÓN MÓVIL: Panel inferior deslizante --- */
+/* --- ADAPTACIÓN MÓVIL --- */
 @media screen and (max-width: 768px) {
     .controles-mapa {
         position: fixed !important;
@@ -120,24 +136,23 @@ body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: 'Mon
         top: auto !important;
         width: 100% !important;
         max-width: 100% !important;
-        max-height: 60vh !important;
+        max-height: 70vh !important;
         border-radius: 20px 20px 0 0 !important;
         box-shadow: 0 -4px 20px rgba(0,0,0,0.2) !important;
         box-sizing: border-box !important;
+        background: white !important;
         
-        /* Oculto por defecto abajo */
+        /* Oculto por defecto abajo de forma segura */
         transform: translateY(100%);
         transition: transform 0.3s ease-in-out;
-        opacity: 0;
-        pointer-events: none;
+        visibility: hidden;
         z-index: 3000 !important;
     }
 
-    /* Clase para desplegarlo desde abajo */
+    /* Clase para desplegarlo perfectamente */
     .controles-mapa.mobile-open {
         transform: translateY(0) !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
+        visibility: visible !important;
     }
 
     /* Logo de Goimen pequeño arriba en móvil */
