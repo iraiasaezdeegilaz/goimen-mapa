@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 3. Lógica para cerrar el menú desde la "X" en móvil (FUERA del bloque del botón flotante pero dentro del DOMContentLoaded)
+    // 3. Lógica para cerrar el menú desde la "X" en móvil
     const btnCerrarMenu = document.getElementById('btn-cerrar');
     if (btnCerrarMenu) {
         btnCerrarMenu.addEventListener('click', () => {
@@ -129,6 +129,59 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- NUEVO: Forzar alineación de botones y crear la X de cierre fija (sticky) en móvil ---
+    setInterval(() => {
+        if (window.innerWidth <= 768) {
+            const panel = document.querySelector('.controles-mapa');
+            
+            if (panel && panel.classList.contains('mobile-open')) {
+                
+                // 1. CREAR LA 'X' DE CIERRE STICKY (SE MUEVE AL HACER SCROLL)
+                if (!panel.querySelector('.cerrar-menu-dinamico')) {
+                    const btnX = document.createElement('button');
+                    btnX.innerHTML = '&times;';
+                    btnX.className = 'cerrar-menu-dinamico';
+                    // Cambiado a position: sticky para que flote siempre visible arriba a la derecha al deslizar
+                    btnX.style.cssText = 'position: sticky !important; top: 0 !important; float: right !important; background: #f1f5f9 !important; border: none !important; border-radius: 50% !important; width: 35px !important; height: 35px !important; font-size: 24px !important; font-weight: bold !important; color: #2d5a27 !important; cursor: pointer !important; z-index: 3100 !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 0 !important; line-height: 1 !important; margin-bottom: 5px !important;';
+                    
+                    // Función para cerrar el menú al hacer clic en la X
+                    btnX.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        panel.classList.remove('mobile-open');
+                        const btnToggleFiltros = document.querySelector('.btn-toggle-filtros-movil');
+                        if (btnToggleFiltros) btnToggleFiltros.style.display = 'block';
+                    });
+                    
+                    // Lo insertamos al principio del panel
+                    panel.insertBefore(btnX, panel.firstChild);
+                }
+
+                // 2. ALINEAR Y ESTRECHAR LOS BOTONES INFERIORES
+                const botones = Array.from(panel.querySelectorAll('button'));
+                const btnGeo = botones.find(b => b.innerText.includes('kokapena') || b.id.includes('geo'));
+                const btnLimpiar = botones.find(b => b.innerText.includes('Garbitu') || b.id.includes('limpiar'));
+
+                if (btnGeo && btnLimpiar) {
+                    let contenedorFila = panel.querySelector('.fila-botones-dinamica');
+                    if (!contenedorFila) {
+                        contenedorFila = document.createElement('div');
+                        contenedorFila.className = 'fila-botones-dinamica';
+                        contenedorFila.style.cssText = 'display: flex !important; justify-content: flex-start !important; align-items: center !important; width: 100% !important; gap: 10px !important; margin: 8px 0 !important;';
+                        
+                        btnGeo.parentNode.insertBefore(contenedorFila, btnGeo);
+                        contenedorFila.appendChild(btnGeo);
+                        contenedorFila.appendChild(btnLimpiar);
+
+                        // Hacemos los botones más pequeños y compactos
+                        const estiloBotones = 'flex: 0 0 auto !important; width: auto !important; margin: 0 !important; padding: 5px 10px !important; font-size: 0.75em !important; border-radius: 6px !important; white-space: nowrap !important; line-height: 1.2 !important;';
+                        btnGeo.style.cssText += estiloBotones;
+                        btnLimpiar.style.cssText += estiloBotones;
+                    }
+                }
+            }
+        }
+    }, 300);
 });
 
 
