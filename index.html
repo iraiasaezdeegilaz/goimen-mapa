@@ -12,6 +12,16 @@
 
     <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#2d5a3f">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+      .then(() => console.log('Service Worker registrado con éxito'))
+      .catch((err) => console.log('Error al registrar Service Worker', err));
+  }
+</script>
 </head>
 <body>
     <a href="https://www.goimen.org/" target="_blank" class="logo-goimen">
