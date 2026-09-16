@@ -125,28 +125,29 @@ body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: 'Mon
     margin-bottom: 20px;
 }
 
-/* --- ADAPTACIÓN MÓVIL: Centrado automático de la Zerrenda / Panel de Filtros --- */
+/* --- ADAPTACIÓN MÓVIL CORREGIDA Y DEFINITIVA --- */
 @media screen and (max-width: 768px) {
-    .controles-mapa, 
-    #zerrenda, 
-    .zerrenda-panel {
+    
+    /* 1. Panel de Filtros / Buscador: Ocupa espacio pero permite cerrar y scrollear bien */
+    .controles-mapa {
         position: fixed !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-        width: 90vw !important;
-        max-width: 400px !important;
-        max-height: 80vh !important;
-        border-radius: 15px !important;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.3) !important;
-        box-sizing: border-box !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 75vh !important; /* Deja ver parte de la pantalla para poder cerrar */
+        border-radius: 20px 20px 0 0 !important;
+        box-shadow: 0 -4px 25px rgba(0,0,0,0.3) !important;
         background: white !important;
-        padding: 20px 15px !important;
+        padding: 25px 15px 20px 15px !important;
         overflow-y: auto !important;
+        box-sizing: border-box !important;
         
         display: none !important;
         visibility: hidden !important;
-        z-index: 3000 !important;
+        z-index: 30000 !important;
     }
 
     .controles-mapa.mobile-open {
@@ -154,7 +155,7 @@ body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: 'Mon
         visibility: visible !important;
     }
 
-    /* POSICIONAMIENTO DE LA X DE CIERRE EN MÓVIL */
+    /* Botón de la X para cerrar el buscador y volver al mapa */
     .controles-mapa .cerrar-menu,
     .controles-mapa #btn-cerrar {
         display: block !important;
@@ -164,64 +165,48 @@ body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: 'Mon
         background: #f1f5f9 !important;
         border: none !important;
         border-radius: 50% !important;
-        width: 32px !important;
-        height: 32px !important;
-        font-size: 20px !important;
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 22px !important;
         font-weight: bold !important;
         color: #2d5a27 !important;
         cursor: pointer !important;
-        z-index: 3010 !important;
+        z-index: 30100 !important;
         line-height: 1 !important;
-        padding: 0 !important;
         text-align: center !important;
     }
 
-    .buscador-container, 
-    .control-input#buscador, 
-    input#buscador {
-        width: calc(100% - 45px) !important;
-        max-width: calc(100% - 45px) !important;
-        box-sizing: border-box !important;
+    /* 2. Popups en móvil: Forzar altura máxima y scroll interno para ver toda la info */
+    .leaflet-popup,
+    .leaflet-popup-content-wrapper {
+        max-width: 92vw !important;
+        max-height: 65vh !important;
+        overflow-y: auto !important;
     }
 
-    .buscador-container input {
-        flex: 1 !important;
-        box-sizing: border-box !important;
-    }
-
-    .logo-img {
-        width: 50px !important;
-    }
-
-    .fila-botones-dinamica {
-        display: flex !important;
-        justify-content: flex-start !important;
-        align-items: center !important;
-        width: 100% !important;
-        gap: 10px !important;
-        margin: 8px 0 !important;
-    }
-
-    .fila-botones-dinamica button,
-    #btn-geolocalizacion, 
-    .btn-geo, 
-    #btn-limpiar-container button, 
-    .btn-limpiar,
-    .btn-limpiar-filtros {
-        flex: 0 0 auto !important;
+    .leaflet-popup-content {
+        max-height: 55vh !important;
+        overflow-y: auto !important;
         width: auto !important;
-        max-width: none !important;
-        margin: 0 !important;
-        padding: 5px 10px !important;
-        font-size: 0.75em !important;
-        min-height: auto !important;
-        height: auto !important;
-        line-height: 1.2 !important;
-        border-radius: 6px !important;
-        white-space: nowrap !important;
+        padding-right: 5px !important;
+    }
+
+    /* 3. Zerrenda / Vista de Lista: Forzar apertura centrada y visible */
+    #contenedor-vista-lista {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 92vw !important;
+        max-width: 450px !important;
+        height: 80vh !important;
+        max-height: 80vh !important;
+        padding: 15px !important;
+        z-index: 40000 !important;
+        border-radius: 15px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+        background: #f8f9fa !important;
+        overflow-y: auto !important;
         box-sizing: border-box !important;
-        display: inline-flex !important;
-        justify-content: center !important;
-        align-items: center !important;
     }
 }
