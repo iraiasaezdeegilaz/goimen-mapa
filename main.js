@@ -1,4 +1,6 @@
+// ==========================================
 // CONFIGURACIÓN DE ESTADÍSTICAS PRIVADAS --> gx5yIHVrhyxfLntP
+// ==========================================
 const MODO_PRUEBAS = true; 
 const SUPABASE_URL = 'https://rzsmaormoixcfnmxxvdz.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6c21hb3Jtb2l4Y2ZubXh4dmR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyMjQ2NDMsImV4cCI6MjEwMDgwMDY0M30.epnwWIdDqRzzLDGtd12g9Z3_c1XqST-vycs1tiyCEmo';
@@ -79,7 +81,7 @@ const TRADUCCIONES = {
         btnAlternarMovil: "🔍 Bilatzailea",
         geoBuscando: "⏳ Kokapena bilatzen...",
         geoErrorPermiso: "Zure nabigatzaileak ez du geolokalizazioa onartzen.",
-        geoErrorGeneral: "Ezin izan da zure kokapena lortu.",
+        geoErrorGeneral: "GPSa aktibatu mesedez",
         popupHemenZaude: "Hemen zaude",
         popupSinNombre: "Sin nombre",
         popupGogokoGorde: "Gogokoetan gorde",
@@ -434,7 +436,7 @@ const VERDE_PASTEL = '#a8d5ba';
 const VERDE_OSCURO = '#2d5a3f'; 
 const AZUL_PASTEL = '#a9cce3'; 
 const AZUL_OSCURO = '#1a5276';
-const ICONOS = { 'ESNEKIAK': '🥛', 'HARAGIA ETA ARRAUTZAK': '🥩', 'BARAZKIAK': '🥕', 'LEKALEAK': '🫘','ERATORRIAK': '🍯', 'ERLEAK': '🐝', 'FRUTA': '🍎', 'FRUITU LEHORRAK': '🥜', 'BASA FRUITUAK': '🍓', 'LANDAREAK': '🌱', 'OGIGINTZA': '🥖', 'EDARIAK': '🍷' };
+const ICONOS = { 'ESNEKIAK': '🥛', 'HARAGIA ETA ARRAUTZAK': '🥩', 'BARAZKIAK': '🥕', 'LEKALEAK': '🫘','ERATORRIAK': '🥫', 'ERLEAK': '🐝', 'FRUTA': '🍎', 'FRUITU LEHORRAK': '🥜', 'BASA FRUITUAK': '🍓', 'LANDAREAK': '🌱', 'OGIGINTZA': '🥖', 'EDARIAK': '🍷' };
 
 // ==========================================
 // GESTIÓN DE FAVORITOS (localStorage)
@@ -796,7 +798,7 @@ window.renderizar = function(ajustarZoom = true) {
 
                 const nombreFoto = p.ARGAZKIA ? p.ARGAZKIA.trim() : "";
                 const direccionMostrada = (p.HELBIDEA && p.HELBIDEA.trim() !== "") ? capitalizarTexto(p.HELBIDEA) : (p.UDALERRIA ? capitalizarTexto(p.UDALERRIA) : "");
-                const imagenHTML = nombreFoto !== "" ? `<img src="img/${nombreFoto}" style="width: 100%; height: 150px; object-fit: contain; background-color: #f8f8f8; display: block;" alt="${p.USTIATEGIAREN_IZENA}">` : '';
+                const imagenHTML = nombreFoto !== "" ? `<img src="img/${nombreFoto}" style="width: 100%; height: 140px; object-fit: contain; background-color: #f8f8f8; display: block;" alt="${p.USTIATEGIAREN_IZENA}">` : '';
 
                 let marcaFormateada = marcaReal ? capitalizarTexto(marcaReal) : null;
                 let distanciaHTML = calcularDistanciaHTML(lat, lng);
@@ -834,8 +836,9 @@ window.renderizar = function(ajustarZoom = true) {
                 
                 marker.on('click', () => registrarEstadistica('clic_productor', nombreParaMostrar));
 
+                // POPUP ADAPTADO PARA MÓVIL (Con scroll vertical estricto para evitar cortes)
                 marker.bindPopup(`
-                    <div class="popup-card" style="font-family: 'Montserrat', sans-serif; border: 2px solid ${VERDE_PASTEL}; padding: 0; border-radius: 15px; overflow: hidden; width: 280px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;">
+                    <div class="popup-card" style="font-family: 'Montserrat', sans-serif; border: 2px solid ${VERDE_PASTEL}; padding: 0; border-radius: 15px; overflow: hidden; width: 280px; max-height: 65vh; overflow-y: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;">
                         <button class="btn-favorito-popup ${esFav ? 'activo' : ''}" data-nombre="${nombreParaMostrar}" onclick="toggleFavorito('${nombreParaMostrar.replace(/'/g, "\\'")}')" style="position: absolute; top: 10px; right: 10px; z-index: 10; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: ${esFav ? '#ffebee' : '#ffffff'}; border: 1px solid ${esFav ? '#e53935' : '#ccc'}; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.15); transition: all 0.2s;" title="${t('popupGogokoGorde')}">
                             <span class="icono-corazon-span" style="font-size: 14px; line-height: 1; filter: ${esFav ? 'none' : 'drop-shadow(0 0 1px rgba(0,0,0,0.8))'};">${esFav ? '❤️' : '🤍'}</span>
                         </button>
@@ -919,7 +922,7 @@ window.renderizar = function(ajustarZoom = true) {
                 markerSal.on('click', () => registrarEstadistica('clic_salmenta', nombreSalName || 'Tienda sin nombre'));
 
                 markerSal.bindPopup(`
-                    <div class="popup-card" style="font-family: 'Montserrat', sans-serif; border: 2px solid ${AZUL_PASTEL}; padding: 0; border-radius: 15px; overflow: hidden; width: 280px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;">
+                    <div class="popup-card" style="font-family: 'Montserrat', sans-serif; border: 2px solid ${AZUL_PASTEL}; padding: 0; border-radius: 15px; overflow: hidden; width: 280px; max-height: 65vh; overflow-y: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;">
                         <button class="btn-favorito-popup ${esFav ? 'activo' : ''}" data-nombre="${nombreSalName}" onclick="toggleFavorito('${nombreSalName.replace(/'/g, "\\'")}')" style="position: absolute; top: 10px; right: 10px; z-index: 10; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: ${esFav ? '#ffebee' : '#ffffff'}; border: 1px solid ${esFav ? '#e53935' : '#ccc'}; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.15); transition: all 0.2s;" title="${t('popupGogokoGorde')}">
                             <span class="icono-corazon-span" style="font-size: 14px; line-height: 1; filter: ${esFav ? 'none' : 'drop-shadow(0 0 1px rgba(0,0,0,0.8))'};">${esFav ? '❤️' : '🤍'}</span>
                         </button>
@@ -984,7 +987,7 @@ window.renderizar = function(ajustarZoom = true) {
                 markerAzoka.on('click', () => registrarEstadistica('clic_azoka', nombreAzokaName || 'Azoka'));
 
                 markerAzoka.bindPopup(`
-                    <div class="popup-card" style="font-family: 'Montserrat', sans-serif; border: 2px solid ${colPrincipal}; padding: 0; border-radius: 15px; overflow: hidden; width: 280px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;">
+                    <div class="popup-card" style="font-family: 'Montserrat', sans-serif; border: 2px solid ${colPrincipal}; padding: 0; border-radius: 15px; overflow: hidden; width: 280px; max-height: 65vh; overflow-y: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;">
                         <button class="btn-favorito-popup ${esFav ? 'activo' : ''}" data-nombre="${nombreAzokaName}" onclick="toggleFavorito('${nombreAzokaName.replace(/'/g, "\\'")}')" style="position: absolute; top: 10px; right: 10px; z-index: 10; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: ${esFav ? '#ffebee' : '#ffffff'}; border: 1px solid ${esFav ? '#e53935' : '#ccc'}; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.15); transition: all 0.2s;" title="${t('popupGogokoGorde')}">
                             <span class="icono-corazon-span" style="font-size: 14px; line-height: 1; filter: ${esFav ? 'none' : 'drop-shadow(0 0 1px rgba(0,0,0,0.8))'};">${esFav ? '❤️' : '🤍'}</span>
                         </button>
@@ -1051,7 +1054,7 @@ window.renderizar = function(ajustarZoom = true) {
                 let markerServ = L.marker([lat, lng], { icon: iconoZerbitzuak, nombre: izena });
 
                 markerServ.bindPopup(`
-                    <div class="popup-card" style="font-family: 'Montserrat', sans-serif; border: 2px solid ${colPrincipal}; padding: 0; border-radius: 15px; overflow: hidden; width: 280px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;">
+                    <div class="popup-card" style="font-family: 'Montserrat', sans-serif; border: 2px solid ${colPrincipal}; padding: 0; border-radius: 15px; overflow: hidden; width: 280px; max-height: 65vh; overflow-y: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;">
                         <button class="btn-favorito-popup ${esFav ? 'activo' : ''}" data-nombre="${izena}" onclick="toggleFavorito('${izena.toString().replace(/'/g, "\\'")}')" style="position: absolute; top: 10px; right: 10px; z-index: 10; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: ${esFav ? '#ffebee' : '#ffffff'}; border: 1px solid ${esFav ? '#e53935' : '#ccc'}; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.15); transition: all 0.2s;" title="${t('popupGogokoGorde')}">
                             <span class="icono-corazon-span" style="font-size: 14px; line-height: 1; filter: ${esFav ? 'none' : 'drop-shadow(0 0 1px rgba(0,0,0,0.8))'};">${esFav ? '❤️' : '🤍'}</span>
                         </button>
@@ -1375,7 +1378,7 @@ window.onload = async function() {
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <button id="btn-alternar-vista-modo" style="background: #2d5a3f; color: white; border: none; border-radius: 6px; padding: 4px 8px; font-size: 0.75em; font-weight: bold; cursor: pointer; font-family: 'Montserrat', sans-serif;">📋 ${t('btnAlternarVista')}</button>
             <select id="select-idioma" onchange="cambiarIdioma(this.value)" style="background: #ffffff; border: 1px solid #ccc; border-radius: 6px; padding: 3px 6px; font-size: 0.8em; font-weight: bold; color: #2c5e2e; cursor: pointer; font-family: 'Montserrat', sans-serif;">
-                <option value="eu" selected>Euskara (EU)</option>
+                <option value="eu" selected>Euskara (EUS)</option>
                 <option value="es">Castellano (CAS)</option>
             </select>
         </div>
@@ -1583,7 +1586,6 @@ window.onload = async function() {
                     ]).addTo(mapa);
                     mapa.setView([latUsuario, lngUsuario], 15);
                     
-                    // Habilitamos el selector de distancias al obtener la ubicación con éxito
                     const selectRadio = document.getElementById('select-radio-distancia');
                     if (selectRadio) {
                         selectRadio.disabled = false;
